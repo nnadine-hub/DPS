@@ -1,0 +1,102 @@
+/* ---- base ---- */
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+  background: var(--off-white);
+}
+
+.container { padding-inline: var(--gutter); }
+.container--narrow { max-width: 1180px; margin-inline: auto; }
+
+.section { padding-block: var(--section-y); }
+.section--flush { padding-block: 0; }
+.section--top { padding-block: calc(var(--section-y) * .55) var(--section-y); }
+
+.page-main { padding-top: var(--header-h); }
+.page-main--over { padding-top: 0; }
+
+/* ---- headings ---- */
+.page-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-page-title);
+  line-height: 1.1;
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+}
+.page-title--oxblood { color: var(--oxblood); }
+
+/* the two-face split heading: Helvetica caps over Sainte Colombe italic caps */
+.split-head {
+  font-size: var(--fs-h2);
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+.split-head__a {
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: .005em;
+}
+.split-head__b {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.06em;
+  letter-spacing: var(--ls-display);
+}
+.split-head--stack .split-head__a,
+.split-head--stack .split-head__b { display: block; }
+.split-head--hero { font-size: var(--fs-hero); line-height: 1.1; }
+.split-head--center { text-align: center; }
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .6em;
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.eyebrow--center { justify-content: center; }
+.eyebrow .sparkle { width: 1em; height: 1em; flex: none; color: var(--ink); }
+
+.lede { font-size: var(--fs-body); max-width: 56ch; }
+.prose { max-width: var(--measure); }
+.prose p + p { margin-top: 1.25em; }
+.prose--center { margin-inline: auto; text-align: center; }
+
+.muted { color: var(--ink-60); }
+.italic-display { font-family: var(--font-display); font-style: italic; }
+
+/* ---- sparkle mark ---- */
+.sparkle { width: 14px; height: 14px; color: currentColor; }
+.sparkle-mark { width: clamp(18px, 2vw, 26px); height: auto; margin-inline: auto; }
+
+/* ---- utility ---- */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute; top: 8px; left: 8px; z-index: 200;
+  padding: .6em 1em; background: var(--oxblood); color: var(--on-dark);
+  font-size: var(--fs-small); letter-spacing: var(--ls-caps);
+  text-transform: uppercase; transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+/* ---- scroll reveal ---- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; }
+}
