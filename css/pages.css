@@ -27,7 +27,7 @@
    passes under the text, an exclusion blend keeps the words legible. */
 .inspiration {
   position: relative;
-  padding-block: clamp(40px, 6.6vw, 100px) clamp(40px, 4.8vw, 72px);
+  padding-block: clamp(36px, 4.3vw, 65px) clamp(44px, 5.6vw, 85px);
 }
 .inspiration__grid {
   display: grid;
@@ -36,48 +36,13 @@
   align-items: start;
 }
 
-.insp {
-  --sq: clamp(84px, 8.7vw, 131px);
-  --src-gap: clamp(10px, 1vw, 15px);
-  position: relative;
-  display: flex;
-  align-items: flex-end;      /* the source photo sits on the photo's baseline */
-  gap: var(--src-gap);
-}
-.insp > a { flex: 1 1 auto; min-width: 0; display: block; }
-
-/* the source photo sits on the inner side, towards the middle of the page */
-.insp--b, .insp--d { flex-direction: row-reverse; }
-
+.insp { position: relative; }
 /* four sizes measured off the design: only (a) is upright */
 .insp--a .media { aspect-ratio: 0.80; }
 .insp--b .media { aspect-ratio: 1.116; }
-.insp--c .media { aspect-ratio: 1.275; }
+.insp--c .media { aspect-ratio: 1.446; }
 .insp--d .media { aspect-ratio: 1.102; }
 
-/* the thing that started the project — a stone, a planting, a piece of
-   carving. A small square that scales up on hover, anchored to its outer
-   bottom corner so it opens into the empty middle of the section. It is a
-   transform, so nothing reflows and the row keeps its height. */
-.insp__source {
-  flex: 0 0 var(--sq);
-  width: var(--sq);
-  aspect-ratio: 1;
-  overflow: hidden;
-  transform-origin: bottom left;
-  transition: transform var(--dur-tile) var(--ease-settle);
-}
-.insp--b .insp__source,
-.insp--d .insp__source { transform-origin: bottom right; }
-.insp__source img { width: 100%; height: 100%; object-fit: cover; }
-.insp__source:hover {
-  transform: scale(1.69);
-  z-index: 1;   /* over the neighbouring photographs, under the pinned text */
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .insp__source { transition: none; }
-}
 
 
 
@@ -116,15 +81,15 @@
        with implicit rows it collapses to the first row alone */
     grid-template-rows: auto auto;
     column-gap: clamp(12px, 1.6vw, 24px);
-    row-gap: clamp(102px, 14vw, 212px);
+    row-gap: clamp(72px, 8vw, 121px);
   }
   /* each figure sits in one half of the row, with its own width and offset
      within it — widths and offsets are percentages of that half, so the
      whole arrangement scales as one piece */
-  .insp--a { grid-column: 1; grid-row: 1; width: 54.4%; margin-top: clamp(17px, 2.7vw, 41px); }
-  .insp--b { grid-column: 2; grid-row: 1; width: 60.4%; margin-left: 33.1%; }
-  .insp--c { grid-column: 1; grid-row: 2; width: 67.3%; margin-left: 3.7%; margin-top: clamp(10px, 1.6vw, 24px); }
-  .insp--d { grid-column: 2; grid-row: 2; width: 56.3%; margin-left: 43.7%; }
+  .insp--a { grid-column: 1; grid-row: 1; width: 39.5%; margin-top: clamp(20px, 3.2vw, 49px); }
+  .insp--b { grid-column: 2; grid-row: 1; width: 46.7%; margin-left: 38.6%; }
+  .insp--c { grid-column: 1; grid-row: 2; width: 62.1%; margin-left: 4.9%; margin-top: clamp(12px, 1.9vw, 28px); }
+  .insp--d { grid-column: 2; grid-row: 2; width: 42.0%; margin-left: 59.3%; }
 
   .inspiration__text {
     grid-column: 1 / -1;
