@@ -1,0 +1,108 @@
+/* ---- tokens ----
+   Colours sampled from the Figma comps.
+   Sainte Colombe is a licensed face: drop the .woff2 files into /fonts and
+   the @font-face rules below pick them up. Until then the stack falls back
+   to Didot / Bodoni / Georgia, which hold the same high-contrast character. */
+
+@font-face {
+  font-family: 'Sainte Colombe';
+  src: local('Sainte Colombe Regular'), local('SainteColombe-Regular'), url('../fonts/SainteColombe-Regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Sainte Colombe';
+  src: local('Sainte Colombe Italic'), local('SainteColombe-Italic'), url('../fonts/SainteColombe-Italic.woff2') format('woff2');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Sainte Colombe';
+  src: local('Sainte Colombe Light'), local('SainteColombe-Light'), url('../fonts/SainteColombe-Light.woff2') format('woff2');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Sainte Colombe';
+  src: local('Sainte Colombe Light Italic'), local('SainteColombe-LightItalic'), url('../fonts/SainteColombe-LightItalic.woff2') format('woff2');
+  font-weight: 300; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Sainte Colombe';
+  src: local('Sainte Colombe ExtraLight Italic'), local('Sainte Colombe Extra Light Italic'), local('SainteColombe-ExtraLightItalic'), url('../fonts/SainteColombe-ExtraLightItalic.woff2') format('woff2');
+  font-weight: 200; font-style: italic; font-display: swap;
+}
+
+:root {
+  /* colour */
+  --ink: #08313C;
+  --ink-60: rgba(8, 49, 60, .6);
+  --ink-45: rgba(8, 49, 60, .45);
+  --oxblood: #60140A;
+  --off-white: #FCFCFC;
+  --cream: #EFE4D8;
+  --panel: #E3D8CD;
+  --on-dark: #FCFCFC;
+  /* the header's two tones */
+  --nav-on-dark: #EFE4D8;
+  --nav-on-light: #08313C;
+
+  /* the brand star as the pointer: oxblood by default, cream over the
+     sections marked data-nav="dark". The trailing `auto` is the fallback
+     for anything that cannot render an SVG cursor. */
+  --cur-star:       url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2216%22%20viewBox%3D%220%200%2018%2016%22%3E%3Cpath%20d%3D%22M18%208C14.4415%208%209%2012.8369%209%2016C9%2012.8369%203.55846%208%200%208C3.55846%208%209%203.16307%209%200C9%203.16307%2014.4415%208%2018%208Z%22%20fill%3D%22%2360140A%22%2F%3E%3C%2Fsvg%3E") 9 8, auto;
+  --cur-star-lg:    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2223%22%20viewBox%3D%220%200%2018%2016%22%3E%3Cpath%20d%3D%22M18%208C14.4415%208%209%2012.8369%209%2016C9%2012.8369%203.55846%208%200%208C3.55846%208%209%203.16307%209%200C9%203.16307%2014.4415%208%2018%208Z%22%20fill%3D%22%2360140A%22%2F%3E%3C%2Fsvg%3E") 13 12, auto;
+  --cur-star-on-dark:    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2216%22%20viewBox%3D%220%200%2018%2016%22%3E%3Cpath%20d%3D%22M18%208C14.4415%208%209%2012.8369%209%2016C9%2012.8369%203.55846%208%200%208C3.55846%208%209%203.16307%209%200C9%203.16307%2014.4415%208%2018%208Z%22%20fill%3D%22%23EFE4D8%22%2F%3E%3C%2Fsvg%3E") 9 8, auto;
+  --cur-star-on-dark-lg: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2226%22%20height%3D%2223%22%20viewBox%3D%220%200%2018%2016%22%3E%3Cpath%20d%3D%22M18%208C14.4415%208%209%2012.8369%209%2016C9%2012.8369%203.55846%208%200%208C3.55846%208%209%203.16307%209%200C9%203.16307%2014.4415%208%2018%208Z%22%20fill%3D%22%23EFE4D8%22%2F%3E%3C%2Fsvg%3E") 13 12, auto;
+
+  --on-dark-70: rgba(252, 252, 252, .72);
+  /* brand accents — used as the hover frame on project tiles */
+  --accent-maroon:   #581B10;
+  --accent-navy:     #15303B;
+  --accent-blue:     #C1CDDE;
+  --accent-charcoal: #433E3A;
+  --accent-cream:    #EDE4D9;
+
+  --hairline: rgba(8, 49, 60, .16);
+  --hairline-dark: rgba(8, 49, 60, .32);
+  --hairline-light: rgba(252, 252, 252, .35);
+  /* the arrow that slides out of a button on hover */
+  --arrow-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 6h21M16 1l6 5-6 5' fill='none' stroke='%23000' stroke-width='1.3'/%3E%3C/svg%3E");
+  --scrim: linear-gradient(to top, rgba(6, 12, 14, .62) 0%, rgba(6, 12, 14, .18) 42%, rgba(6, 12, 14, 0) 72%);
+
+  /* type */
+  --font-display: 'Sainte Colombe', 'Didot', 'Bodoni MT', Georgia, 'Times New Roman', serif;
+  --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  --fs-hero:       clamp(2.05rem, 5vw, 4.05rem);
+  --fs-page-title: clamp(1.75rem, 2.98vw, 2.8125rem);   /* 45px, from the design */
+  --fs-h2:         clamp(1.45rem, 2.85vw, 2.4rem);
+  --fs-h3:         clamp(1.02rem, 1.45vw, 1.28rem);
+  --fs-body:       clamp(.92rem, 1.02vw, 1rem);
+  --fs-caption:    clamp(.84rem, .92vw, .92rem);
+  --fs-small:      .8125rem;
+  --fs-nav:        .875rem;
+
+  --lh-display: 1.06;
+  --lh-body: 1.62;
+  --ls-display: .01em;
+  --ls-caps: .085em;
+
+  /* layout */
+  --gutter: clamp(16px, 2.25vw, 34px);
+  --gap: clamp(8px, 1.15vw, 17px);
+  --header-h: 54px;
+  --section-y: clamp(56px, 6.6vw, 104px);
+  --measure: 62ch;
+
+  /* motion */
+  --dur-fast: 300ms;
+  --dur-btn: 520ms;   /* button hover — deliberately unhurried */
+  --dur-tile: 620ms;  /* project tile frame closing in */
+  --dur: 450ms;
+  --dur-slow: 700ms;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  /* softer landing — most of the travel happens early, then it settles */
+  --ease-settle: cubic-bezier(.16, .84, .44, 1);
+}
+
+@media (min-width: 900px) {
+  :root { --header-h: 62px; }
+}

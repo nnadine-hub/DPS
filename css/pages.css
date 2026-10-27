@@ -1,0 +1,2021 @@
+/* =========================================================
+   HOME
+   ========================================================= */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: var(--header-h) var(--gutter) clamp(48px, 6vw, 90px);
+  isolation: isolate;
+  color: var(--on-dark);
+}
+.hero__bg { position: absolute; inset: 0; z-index: -1; }
+.hero__bg img,
+.hero__bg video { width: 100%; height: 100%; object-fit: cover; }
+.hero__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(6,12,14,.44) 0%, rgba(6,12,14,.12) 34%, rgba(6,12,14,.30) 100%);
+}
+.hero__title {
+  text-align: center;
+  max-width: 26ch;
+  font-size: clamp(2rem, 4.2vw, 3.75rem);   /* 60px */
+  line-height: .83;
+}
+/* Both halves of the hero line share one size and one weight so they read
+   as a single sentence. The two knobs are here on purpose: if one face
+   still looks heavier than the other on screen, change only its variable. */
+.hero__title {
+  --hero-sans-weight: 300;
+  --hero-serif-weight: 300;
+}
+.hero__title .split-head__a {
+  font-weight: var(--hero-sans-weight);
+  letter-spacing: -.0333em;  /* -2px at the 60px the title reaches */
+}
+.hero__title .split-head__b {
+  font-weight: var(--hero-serif-weight);
+  font-size: 1em;            /* no 1.06x bump, so the cap heights align */
+  letter-spacing: -.0333em;
+}
+.hero-sentinel { position: absolute; bottom: 0; left: 0; width: 1px; height: 1px; }
+
+/* inspiration — a scatter of small photographs at eleven different sizes,
+   with the title held in the middle. Above 760px the photographs are placed
+   by percentage inside a box of fixed proportion, so the whole arrangement
+   scales as one piece rather than reflowing. */
+.inspiration {
+  position: relative;
+  padding-block: clamp(30px, 3.4vw, 52px);
+}
+.inspiration__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(14px, 2vw, 28px);
+  align-items: start;
+}
+.insp { position: relative; }
+
+/* the whole collage is triggered by one observer on the grid, so every
+   photograph belongs to the same arrival rather than each firing as it
+   scrolls into view. The grid itself stays put; the children animate. */
+.js .inspiration__grid.reveal { opacity: 1; transform: none; }
+.js .inspiration__grid.reveal .insp,
+.js .inspiration__grid.reveal .inspiration__label {
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-settle),
+              transform var(--dur-slow) var(--ease-settle);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .inspiration__grid.reveal .insp { transform: translateY(26px); }
+.js .inspiration__grid.reveal.is-visible .insp { opacity: 1; transform: none; }
+.js .inspiration__grid.reveal.is-visible .inspiration__label { opacity: 1; }
+.insp .media {
+  width: 100%;
+  height: 100%;
+  /* the hover scale sits on the media, not the figure, so it is free of the
+     entry animation's transform and its stagger delay */
+  transform-origin: center;
+  transition: transform 460ms var(--ease-settle);
+  will-change: transform;
+}
+.insp img { width: 100%; height: 100%; object-fit: cover; }
+
+/* the photograph grows from its own centre, so it opens out in place
+   rather than drifting off its spot */
+.insp:hover .media,
+.insp a:focus-visible .media { transform: scale(1.16); }
+
+/* and lifts clear of its neighbours while it is open */
+.insp:hover,
+.insp:focus-within { z-index: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  .insp .media { transition: none; }
+}
+
+/* ---- the title ---- */
+.inspiration__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .42em;
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.2vw, 3rem);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.inspiration__label .sparkle { width: .44em; height: .44em; flex: none; }
+
+@media (min-width: 760px) {
+  .inspiration__grid {
+    display: block;
+    position: relative;
+    aspect-ratio: 1444 / 1033;
+  }
+  .insp { position: absolute; margin: 0; }
+
+  /* three size tiers and one anchor, so the scatter reads as composed */
+  .insp--1  { left: 3.0%; top: 3.0%; width: 15.93%; aspect-ratio: 0.793; }   /* anchor 230×290 */
+  .insp--2  { left: 25.0%; top: 12.0%; width: 10.39%; aspect-ratio: 0.789; }   /* small 150×190 */
+  .insp--3  { left: 44.0%; top: 5.0%; width: 13.16%; aspect-ratio: 1.310; }   /* wide 190×145 */
+  .insp--4  { left: 65.0%; top: 10.0%; width: 13.16%; aspect-ratio: 0.792; }   /* mid 190×240 */
+  .insp--5  { left: 87.0%; top: 4.0%; width: 7.62%; aspect-ratio: 1.000; }   /* tiny 110×110 */
+  .insp--6  { left: 1.0%; top: 40.0%; width: 13.16%; aspect-ratio: 0.792; }   /* mid 190×240 */
+  .insp--7  { left: 21.0%; top: 50.0%; width: 7.62%; aspect-ratio: 1.000; }   /* tiny 110×110 */
+  .insp--8  { left: 86.0%; top: 44.0%; width: 10.39%; aspect-ratio: 0.789; }   /* small 150×190 */
+  .insp--9  { left: 11.0%; top: 74.0%; width: 10.39%; aspect-ratio: 0.789; }   /* small 150×190 */
+  .insp--10 { left: 38.0%; top: 78.0%; width: 10.39%; aspect-ratio: 1.364; }   /* widelet 150×110 */
+  .insp--11 { left: 66.0%; top: 72.0%; width: 13.16%; aspect-ratio: 0.792; }   /* mid 190×240 */
+
+  /* they arrive in sequence, neighbours never together */
+  .insp--1  { --reveal-delay: 0ms; }
+  .insp--4  { --reveal-delay: 90ms; }
+  .insp--9  { --reveal-delay: 180ms; }
+  .insp--3  { --reveal-delay: 270ms; }
+  .insp--6  { --reveal-delay: 360ms; }
+  .insp--11 { --reveal-delay: 450ms; }
+  .insp--2  { --reveal-delay: 540ms; }
+  .insp--8  { --reveal-delay: 630ms; }
+  .insp--10 { --reveal-delay: 720ms; }
+  .insp--5  { --reveal-delay: 810ms; }
+  .insp--7  { --reveal-delay: 900ms; }
+  .inspiration__label { --reveal-delay: 1090ms; }
+
+
+  .inspiration__label {
+    position: absolute;
+    top: 49.7%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* stacked, the scatter becomes two columns with the title in the middle */
+@media (max-width: 759px) {
+  .insp .media { aspect-ratio: 1; }
+  .inspiration__label { grid-column: 1 / -1; padding-block: clamp(16px, 5vw, 32px); }
+  .insp--1, .insp--2, .insp--3, .insp--4, .insp--5, .insp--6 { order: 1; }
+  .inspiration__label { order: 2; }
+  .insp--7, .insp--8, .insp--9, .insp--10, .insp--11 { order: 3; }
+}
+
+/* featured tiles */
+.featured__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 700px) { .featured__grid { grid-template-columns: repeat(3, 1fr); } }
+.featured__foot {
+  display: flex;
+  justify-content: flex-end;
+  padding: clamp(20px, 2.4vw, 34px) var(--gutter) 0;
+}
+
+/* collaboration */
+.collab__head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(22px, 3vw, 48px);
+  align-items: start;
+}
+@media (min-width: 860px) { .collab__head { grid-template-columns: 1fr 1fr; } }
+.collab__head .prose {
+  max-width: 713px;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.59vw, 1.5rem);   /* 24px */
+  line-height: 1.083;                          /* 26px */
+  letter-spacing: -.02em;
+  color: #000;
+}
+.collab__head .prose p + p { margin-top: clamp(14px, 1.6vw, 24px); }
+.collab__pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 2.4vw, 32px);
+  margin-top: clamp(34px, 4vw, 58px);
+  padding-top: clamp(34px, 4vw, 58px);
+  border-top: 1px solid var(--hairline);
+}
+@media (min-width: 760px) { .collab__pair { grid-template-columns: 1fr 1fr; } }
+.collab__pair .media { aspect-ratio: 1434 / 1148; }
+.collab__caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4em;
+  margin-top: 1.1em;
+  font-size: var(--fs-caption);
+}
+
+
+/* =========================================================
+   PROJECTS — page head, type filter, next-projects row
+   ========================================================= */
+.page-head--filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(16px, 2vw, 28px);
+}
+
+/* the filter is a listbox rather than a native select, so it can be styled */
+.filter { position: relative; width: clamp(186px, 15.2vw, 230px); }
+.filter__button {
+  width: 100%;
+  height: clamp(42px, 3.44vw, 52px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1em;
+  padding-inline: 7.14%;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: clamp(.95rem, 1.32vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-align: left;
+  transition: background-color var(--dur-fast) var(--ease);
+}
+.filter__button:hover { background: var(--panel); }
+.filter__button svg {
+  width: clamp(11px, .93vw, 14px); height: auto; flex: none;
+  transition: transform var(--dur-fast) var(--ease);
+}
+.filter.is-open .filter__button svg { transform: rotate(180deg); }
+
+.filter__list {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0; right: 0;
+  z-index: 20;
+  background: var(--cream);
+  padding: clamp(8px, 1vw, 14px) 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease),
+              visibility 0s linear var(--dur-fast);
+}
+.filter.is-open .filter__list {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+.filter__list li {
+  padding: clamp(6px, .66vw, 10px) 7.14%;
+  font-family: var(--font-body);
+  font-size: clamp(.9rem, 1.12vw, 1.0625rem);
+  font-weight: 300;
+  line-height: 1.1;
+  transition: color var(--dur-fast) var(--ease);
+}
+.filter__list li:hover,
+.filter__list li[aria-selected="true"] { color: var(--oxblood); }
+
+/* a hidden tile must not leave a gap in the grid */
+.projects-grid .tile[hidden] { display: none; }
+
+/* ---- next projects, at the foot of a project ---- */
+/* title on the left, See more (back to all projects) on the right */
+.next-projects__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-bottom: clamp(20px, 2.4vw, 36px);
+}
+.next-projects__title { margin-bottom: 0; }
+.next-projects__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(12px, 1.2vw, 17px);
+}
+@media (min-width: 700px) {
+  .next-projects__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* =========================================================
+   ABOUT
+   ========================================================= */
+.about-hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: var(--header-h) var(--gutter) clamp(28px, 3.4vw, 48px);
+  color: var(--on-dark);
+  isolation: isolate;
+}
+.about-hero__bg { position: absolute; inset: 0; z-index: -1; }
+.about-hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+.about-hero__bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(6,12,14,.42) 0%, rgba(6,12,14,0) 30%, rgba(6,12,14,.5) 100%);
+}
+.about-hero__title {
+  align-self: start;
+  margin-top: clamp(10px, 2vw, 34px);
+  font-size: clamp(2.6rem, 6.6vw, 6.25rem);   /* 100px */
+  line-height: 1;
+  text-transform: uppercase;
+}
+.about-hero__a {
+  font-family: var(--font-body);
+  font-weight: 100;                            /* Helvetica Neue Thin */
+  letter-spacing: -.0096em;                    /* -0.96px at 100px */
+}
+.about-hero__b {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+}
+/* the standfirst: 36px on 32px leading, three lines as drawn */
+.about-hero__lede {
+  font-weight: 300;
+  font-size: clamp(1rem, 1.65vw, 1.5625rem);   /* 25px */
+  line-height: 1.28;                           /* the 32px leading as drawn */
+  letter-spacing: -.04em;
+}
+.about-hero__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6em;
+}
+/* the button sits on the paragraph's last line rather than floating above it */
+.about-hero__foot .btn { margin-bottom: 0; }
+.about-hero__foot p { max-width: 46ch; }
+
+.ethos {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 860px) { .ethos { grid-template-columns: 1fr 1fr; } }
+.ethos__text {
+  background: var(--cream);
+  padding: clamp(28px, 3.4vw, 56px) var(--gutter);
+  display: grid;
+  align-content: space-between;
+  gap: clamp(40px, 8vw, 130px);
+}
+.ethos__text h2 {
+  color: var(--oxblood);
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.78vw, 2.625rem);   /* 42px */
+  line-height: 1.04;
+  letter-spacing: -.03em;
+  text-align: right;                            /* sits to the right, as drawn */
+  justify-self: end;
+}
+/* the carousel copy: Helvetica Light 25px, matching the rest of the page */
+.ethos__paras > p {
+  font-weight: 300;
+  font-size: clamp(1rem, 1.65vw, 1.5625rem);    /* 25px */
+  line-height: 1.28;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  max-width: none;
+}
+
+/* the paragraphs are stacked in one grid cell, so the panel is as tall as
+   the longest of them and nothing shifts as they change */
+.ethos__paras { display: grid; }
+.ethos__paras > p {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-slow) var(--ease),
+              visibility 0s linear var(--dur-slow);
+}
+.ethos__paras > p.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ethos__paras > p { transition: none; }
+}
+.ethos__media { position: relative; aspect-ratio: 1028 / 904; }
+.ethos__media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease);
+}
+.ethos__media img.is-active { opacity: 1; }
+.ethos__nav {
+  position: absolute;
+  right: clamp(12px, 1.4vw, 20px);
+  bottom: clamp(12px, 1.4vw, 20px);
+  display: flex;
+  gap: .9em;
+  z-index: 1;
+}
+.ethos__nav button {
+  display: grid; place-items: center;
+  width: 40px; height: 34px;
+  color: var(--on-dark);
+  transition: transform var(--dur-fast) var(--ease);
+}
+.ethos__nav button:hover { transform: translateY(-2px); }
+.ethos__nav svg { width: 26px; height: 12px; }
+
+.experience {
+  position: relative;
+  isolation: isolate;
+  color: var(--on-dark);
+  padding: clamp(34px, 4vw, 58px) var(--gutter) clamp(40px, 5vw, 76px);
+}
+.experience__bg { position: absolute; inset: 0; z-index: -1; }
+.experience__bg img { width: 100%; height: 100%; object-fit: cover; }
+.experience__bg::after { content: ''; position: absolute; inset: 0; background: rgba(28, 8, 6, .58); }
+.experience h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.45rem, 2.65vw, 2.5rem);     /* 40px */
+  line-height: 1;
+  letter-spacing: -.125em;                       /* -5px at 40px */
+  text-transform: uppercase;
+  margin-bottom: 1em;
+}
+.acc__item { border-top: 1px solid var(--hairline-light); background: rgba(20, 8, 6, .22); }
+.acc__item:last-child { border-bottom: 1px solid var(--hairline-light); }
+.acc__head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(16px, 3vw, 48px);
+  width: 100%;
+  padding: clamp(16px, 1.8vw, 26px) clamp(12px, 1.6vw, 24px);
+  text-align: left;
+  color: inherit;
+}
+.acc__year {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(1.2rem, 2.12vw, 2rem);        /* 32px */
+  line-height: 1;
+}
+/* the line beside the year: Helvetica Regular, in caps */
+.acc__summary {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.59vw, 1.5rem);        /* 24px */
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--on-dark);
+}
+.acc__plus { position: relative; width: 18px; height: 18px; flex: none; }
+.acc__plus::before, .acc__plus::after {
+  content: ''; position: absolute; inset: 50% 0 auto; height: 1.5px;
+  background: currentColor; transition: transform var(--dur) var(--ease);
+}
+.acc__plus::after { transform: rotate(90deg); }
+.acc__head[aria-expanded='true'] .acc__plus::before { transform: rotate(45deg); }
+.acc__head[aria-expanded='true'] .acc__plus::after { transform: rotate(135deg); }
+.acc__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur) var(--ease); }
+.acc__head[aria-expanded='true'] + .acc__panel { grid-template-rows: 1fr; }
+/* the panel repeats the head's grid so its copy sits under the summary,
+   not under the year */
+.acc__panel > div {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(16px, 3vw, 48px);
+  padding-inline: clamp(12px, 1.6vw, 24px);
+}
+.acc__year--ghost { visibility: hidden; height: 0; }
+/* and the panel that opens beneath it: the same size, Light */
+.acc__panel p {
+  padding: clamp(8px, 1.06vw, 16px) 0 clamp(20px, 2.6vw, 38px);
+  max-width: min(100%, 700px);                   /* a wide margin to its right */
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(.9rem, 1.32vw, 1.25rem);      /* 20px */
+  line-height: 1.3;
+  color: var(--on-dark);
+}
+
+.founders {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 3vw, 52px);
+  align-items: start;
+}
+@media (min-width: 860px) { .founders { grid-template-columns: minmax(0, .9fr) minmax(0, 2fr); } }
+/* FOUNDERS — values read from the design file */
+.founders__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.6rem, 2.98vw, 2.8125rem);   /* 45px */
+  line-height: 1;
+  letter-spacing: -.07em;                        /* -3.15px at 45px */
+  text-transform: uppercase;
+  color: var(--oxblood);
+  margin-bottom: clamp(20px, 2.2vw, 33px);
+}
+.founders__lede {
+  font-weight: 300;
+  font-size: clamp(.85rem, 1.19vw, 1.125rem);    /* 18px */
+  line-height: 1.24;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  color: #000;
+  max-width: 460px;
+}
+.founders__list { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+@media (min-width: 560px) { .founders__list { grid-template-columns: 1fr 1fr; } }
+.founders__list .media { aspect-ratio: 432 / 452; margin-bottom: 1em; }
+.founders__list h3 {
+  font-family: var(--font-body);
+  font-weight: 300;                              /* Light, as asked */
+  font-size: clamp(1rem, 1.72vw, 1.625rem);      /* 26px */
+  line-height: 1.08;
+  letter-spacing: -.05em;
+  text-transform: uppercase;
+  color: var(--oxblood);
+}
+.founders__list figcaption p {
+  font-weight: 300;
+  font-size: clamp(1rem, 1.72vw, 1.625rem);      /* 26px */
+  line-height: 1.08;
+  letter-spacing: -.03em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* lead section: the band takes the photo's own proportions so the whole
+   picture shows; the heading sits bottom left over the pool, on the same
+   line as the button at bottom right */
+.cta-band {
+  position: relative;
+  isolation: isolate;
+  color: var(--on-dark);
+  height: clamp(380px, 46.52vw, 703px);     /* the photo's own shape: nothing cropped */
+  display: grid;
+  align-items: end;
+  padding: clamp(36px, 6vw, 90px) var(--gutter) clamp(28px, 3.2vw, 48px);
+}
+.cta-band__bg { position: absolute; inset: 0; z-index: -1; }
+.cta-band__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+/* only a soft shade along the bottom, behind the heading and button */
+.cta-band__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,12,14,.38), rgba(6,12,14,0) 42%); }
+/* heading and button on one line, the button centred on the heading */
+.cta-band__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+.cta-band__row .btn { margin-bottom: 0; }
+/* the same type settings as the Our Story title, at 45px: Helvetica Neue
+   Light at -2% on .868 line height, then Sainte Colombe Light Italic 5.7%
+   larger at -4% on .911 line height */
+.cta-band__title {
+  font-size: clamp(1.6rem, 2.98vw, 2.8125rem);   /* 45px */
+}
+.cta-band__title .split-head__a {
+  font-weight: 300;
+  letter-spacing: -.02em;
+  line-height: .868;
+}
+.cta-band__title .split-head__b {
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.057em;
+  letter-spacing: -.04em;
+  line-height: .911;
+}
+
+/* =========================================================
+   PROJECTS
+   ========================================================= */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  padding-inline: var(--gutter);
+}
+@media (min-width: 620px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 940px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.page-head {
+  padding: clamp(26px, 3vw, 44px) var(--gutter) clamp(20px, 2.4vw, 34px);
+}
+
+/* the Journal heading on the home page sits quieter than a page title */
+.journal-title { font-size: clamp(1.35rem, 2.2vw, 2.125rem); }
+.page-head--split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6em;
+}
+
+/* =========================================================
+   PROJECT DETAILS
+   ========================================================= */
+.pd-hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: end;
+  padding: var(--header-h) var(--gutter) clamp(30px, 3.6vw, 58px);
+  color: var(--on-dark);
+  isolation: isolate;
+}
+.pd-hero__bg { position: absolute; inset: 0; z-index: -1; }
+.pd-hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+.pd-hero__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,12,14,.55), rgba(6,12,14,.1) 55%, rgba(6,12,14,.35)); }
+.pd-hero__title {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(2.1rem, 4.63vw, 4.375rem);   /* 70px, from the design */
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  max-width: 12ch;
+}
+/* the last word in Sainte Colombe Light Italic, as drawn */
+.pd-hero__b {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -.02em;
+}
+/* ---- About project, values read from the design file ---- */
+.pd-intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(22px, 3vw, 48px);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  /* the design puts the copy in a 713px column with a 122px gutter */
+  .pd-intro {
+    grid-template-columns: minmax(0, 1fr) clamp(380px, 47.2vw, 713px);
+    column-gap: clamp(40px, 8.07vw, 122px);
+  }
+}
+
+/* "About project": Helvetica Neue Light 26px in ink, not the small caps
+   eyebrow used elsewhere. The file has this at Regular; Light is the
+   client's call. */
+.pd-intro .eyebrow {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.72vw, 1.625rem);
+  letter-spacing: normal;
+  color: var(--ink);
+  margin-bottom: clamp(8px, 1.06vw, 16px);
+}
+
+/* the heading runs two faces at two sizes, each with its own tracking */
+.pd-intro .split-head { color: var(--ink); }
+.pd-intro .split-head__a {
+  font-weight: 300;
+  font-size: clamp(1.5rem, 3.11vw, 2.9375rem);   /* 47px */
+  line-height: .988;
+  letter-spacing: -.04em;
+}
+.pd-intro .split-head__b {
+  font-weight: 300;
+  font-size: clamp(1.55rem, 3.17vw, 3rem);       /* 48px */
+  line-height: 1.125;
+  letter-spacing: -.02em;
+}
+
+/* the copy column: Helvetica Neue Light 21px on 26px, in black */
+.pd-intro .prose {
+  max-width: none;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.39vw, 1.3125rem);
+  line-height: 1.238;
+  color: #000;
+}
+.pd-intro .prose p + p { margin-top: clamp(12px, 1.32vw, 20px); }
+
+
+.mosaic { display: grid; gap: var(--gap); padding-inline: var(--gutter); }
+.mosaic__row { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+@media (min-width: 700px) { .mosaic__row--2 { grid-template-columns: 1fr 1fr; } }
+.mosaic .media { aspect-ratio: 1436 / 1402; }
+.mosaic .media--wide { aspect-ratio: 2884 / 1634; }
+/* the standfirst sits in a 1199px column, centred on the page but with the
+   text left-aligned: Helvetica Neue Light 34px on 37px */
+.pd-note { padding-block: clamp(34px, 4vw, 62px); }
+.pd-note .prose {
+  max-width: min(100%, 1199px);
+  margin-inline: auto;
+  text-align: left;
+  font-weight: 300;
+  font-size: clamp(1.25rem, 2.25vw, 2.125rem);
+  line-height: 1.088;
+  letter-spacing: -.01em;
+  color: #000;
+}
+
+/* =========================================================
+   ARCHIVE + POST
+   ========================================================= */
+.load-more { display: grid; place-items: center; padding-top: clamp(34px, 4vw, 60px); }
+.load-more button {
+  color: var(--oxblood);
+  font-size: var(--fs-body);
+  padding: .6em 1.2em;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.load-more button { text-transform: uppercase; }
+.load-more button:hover { opacity: .7; }
+.load-more[hidden] { display: none; }
+
+.post-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.6em;
+}
+.post-head__date {
+  font-size: clamp(.9rem, 1.32vw, 1.25rem);   /* 20px */
+  color: #000;
+  text-align: right;
+  line-height: 1.35;
+  flex: none;
+}
+.post-hero { aspect-ratio: 2878 / 1394; margin-block: clamp(24px, 3vw, 44px); }
+.post-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(22px, 3vw, 48px);
+  align-items: start;
+}
+@media (min-width: 860px) { .post-body { grid-template-columns: minmax(0, .85fr) minmax(0, 1.5fr); } }
+/* the post title, as drawn: Helvetica Light over Sainte Colombe Light
+   Italic, 45px, in sentence case rather than capitals */
+.post-head__title {
+  color: var(--ink);
+  font-size: clamp(1.6rem, 2.98vw, 2.8125rem);   /* 45px */
+  line-height: 1.04;
+  text-transform: none;
+}
+.post-head__title .split-head__a { font-weight: 300; letter-spacing: -.02em; }
+.post-head__title .split-head__b { font-weight: 300; font-size: 1em; letter-spacing: -.02em; }
+/* the heading under the photograph: Helvetica Light over Sainte Colombe
+   Light Italic at 45px, -2% on both, like the site's other section heads */
+.post-body__title {
+  color: var(--ink);
+  font-size: clamp(1.6rem, 2.98vw, 2.8125rem);
+  line-height: 1.04;
+}
+.post-body__title .split-head__a { font-weight: 300; letter-spacing: -.02em; }
+.post-body__title .split-head__b { font-weight: 300; font-size: 1em; letter-spacing: -.02em; }
+/* the article copy: Helvetica Light 22px on 26px, -2% */
+.post-body .prose {
+  max-width: 648px;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.46vw, 1.375rem);    /* 22px */
+  line-height: 1.18;                           /* 26px */
+  letter-spacing: -.02em;
+  color: #000;
+}
+.post-body .prose p + p { margin-top: 1.1em; }
+@media (min-width: 860px) {
+  .post-body h2 { position: sticky; top: calc(var(--header-h) + 24px); }
+}
+
+/* =========================================================
+   CAREERS
+   ========================================================= */
+/* the title at the top of a page (Careers, Projects, Journal, DPS Archive,
+   a journal post): Sainte Colombe Light Italic 45px, -2% */
+.page-title--display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+/* Helvetica Neue Light 24px on 26px, -2% */
+.careers-lede {
+  margin-top: clamp(12px, 2.1vw, 32px);
+  max-width: 945px;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.59vw, 1.5rem);   /* 24px */
+  line-height: 1.083;
+  letter-spacing: -.02em;
+  color: #000;
+}
+.careers-band { aspect-ratio: 2400 / 1068; }
+@media (max-width: 700px) { .careers-band { aspect-ratio: 4 / 3; } }
+.careers-split { display: grid; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .careers-split { grid-template-columns: 1fr 1fr; } }
+.careers-split__note {
+  background: var(--cream);
+  color: var(--oxblood);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(28px, 4vw, 60px);
+  padding: clamp(48px, 6vw, 96px) var(--gutter);
+  text-align: center;
+}
+.careers-split__note .sparkle-mark { color: var(--oxblood); }
+.form-panel {
+  background: var(--panel);
+  padding: clamp(30px, 3.6vw, 62px) clamp(22px, 3vw, 54px);
+  display: grid;
+  align-content: center;
+  gap: clamp(26px, 3vw, 42px);
+}
+.form-panel h2 { font-size: var(--fs-h3); }
+.form-panel .btn { justify-self: center; }
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact-stage {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  padding: calc(var(--header-h) + clamp(24px, 3vw, 54px)) var(--gutter) clamp(40px, 5vw, 80px);
+  display: grid;
+  align-content: center;
+}
+.contact-stage__bg { position: absolute; inset: 0; z-index: -1; }
+.contact-stage__bg img { width: 100%; height: 100%; object-fit: cover; }
+.contact-stage__bg::after { content: ''; position: absolute; inset: 0; background: rgba(10, 6, 8, .42); }
+.contact-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 1240px;
+  width: 100%;
+  margin-inline: auto;
+}
+@media (min-width: 900px) { .contact-card { grid-template-columns: 1fr 1fr; } }
+.contact-card__note {
+  background: rgba(18, 20, 20, .58);
+  backdrop-filter: blur(2px);
+  color: var(--on-dark);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(28px, 4vw, 64px);
+  padding: clamp(44px, 5vw, 90px) clamp(22px, 3vw, 48px);
+  text-align: center;
+}
+.contact-card__note .sparkle-mark { color: var(--on-dark); }
+
+/* the note beside each form (Contact + Careers): a smaller star over a
+   36px title, both faces Light with -2% tracking like the rest of the site */
+.careers-split__note,
+.contact-card__note { gap: clamp(22px, 2.9vw, 44px); }
+.careers-split__note .sparkle-mark,
+.contact-card__note .sparkle-mark { width: clamp(14px, 1.32vw, 20px); }
+.split-head--panel {
+  font-size: clamp(1.45rem, 2.38vw, 2.25rem);   /* 36px */
+  line-height: 1.1;
+}
+.split-head--panel .split-head__a { font-weight: 300; letter-spacing: -.02em; }
+.split-head--panel .split-head__b { font-weight: 300; font-size: 1em; letter-spacing: -.02em; }
+
+/* ---- careers invitation under the contact form (values from the file) ---- */
+.contact-careers {
+  padding: clamp(64px, 8.47vw, 128px) clamp(var(--gutter), 10.1vw, 153px) clamp(56px, 7vw, 106px);
+}
+.contact-careers__head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(22px, 3vw, 40px);
+  align-items: start;
+}
+@media (min-width: 860px) {
+  /* the paragraph starts at x765 of 1512, i.e. 50.75% across the content */
+  .contact-careers__head { grid-template-columns: 50.75% 1fr; gap: 0; }
+}
+.contact-careers__title {
+  color: var(--ink);
+  font-size: clamp(1.6rem, 2.98vw, 2.8125rem);   /* 45px */
+  line-height: 1.04;
+}
+.contact-careers__title .split-head__a { font-weight: 300; letter-spacing: -.02em; }
+.contact-careers__title .split-head__b { font-weight: 300; font-size: 1em; letter-spacing: -.02em; }
+.contact-careers__body { display: grid; justify-items: start; gap: clamp(26px, 3.5vw, 52px); }
+.contact-careers__body p {
+  max-width: 606px;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.59vw, 1.5rem);    /* 24px */
+  line-height: 1.083;
+  letter-spacing: -.02em;
+  color: #000;
+}
+
+/* three photos in a loose stagger: equal 67px gaps, tops offset 0 / 71 / 18 */
+.contact-careers__photos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  margin-top: clamp(32px, 3.6vw, 54px);
+}
+.contact-careers__photo { aspect-ratio: 358 / 333; }
+.contact-careers__photo--1 { aspect-ratio: 349 / 351; }
+@media (min-width: 700px) {
+  .contact-careers__photos {
+    grid-template-columns: 28.94fr 29.68fr 29.68fr;
+    column-gap: 5.55%;
+    align-items: start;
+  }
+  .contact-careers__photo--2 { margin-top: 4.7vw; }
+  .contact-careers__photo--3 { margin-top: 1.19vw; }
+}
+@media (min-width: 1512px) {
+  .contact-careers__photo--2 { margin-top: 71px; }
+  .contact-careers__photo--3 { margin-top: 18px; }
+}
+
+/* the hairline above the studio details, inset to the gutters */
+.contact-details { position: relative; }
+.contact-details::before {
+  content: '';
+  position: absolute;
+  top: 0; left: var(--gutter); right: var(--gutter);
+  border-top: 1px solid var(--hairline);
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 3.4vw, 54px) clamp(24px, 3vw, 48px);
+}
+@media (min-width: 560px) { .contact-info { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .contact-info { grid-template-columns: repeat(3, 1fr); } }
+.contact-info dt { color: var(--oxblood); margin-bottom: .55em; }
+.contact-info dd a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* =========================================================
+   PROJECT TYPE STACK (home)
+   Each panel is a full viewport tall and sticks to the top, so the
+   next one rides up and covers the one before it as you scroll.
+   ========================================================= */
+.stack {
+  position: relative;
+  /* how much of the next panel stays visible below the current one */
+  --peek: 12svh;
+}
+
+.stack__panel {
+  position: sticky;
+  top: 0;
+  display: grid;
+  align-content: end;
+  justify-items: center;
+  height: calc(100svh - var(--peek));
+  padding: 0 var(--gutter) clamp(40px, 9vh, 104px);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--on-dark);
+  text-align: center;
+}
+/* the panels sit flush, so the one below always shows through the strip
+   the current panel leaves at the foot of the screen */
+.stack__panel { margin-bottom: 0; }
+.stack__panel img {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+.stack__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(6, 12, 14, .5) 0%, rgba(6, 12, 14, .12) 45%, rgba(6, 12, 14, .06) 100%);
+}
+.stack__panel:hover img { transform: scale(1.03); }
+
+.stack__title {
+  display: block;
+  font-size: clamp(1.5rem, 3.2vw, 2.8125rem);   /* up to 45px */
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+/* the first word is Helvetica Light, the rest Sainte Colombe italic light;
+   both are tracked tighter than the display default */
+.stack__title-a {
+  font-family: var(--font-body);
+  font-weight: 300;
+  letter-spacing: -.012em;
+}
+.stack__title-b {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -.012em;
+}
+.stack__cta {
+  /* inline-block so the rule beneath hugs the words rather than
+     stretching the full width of the title above it */
+  display: inline-block;
+  margin-top: -4px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--fs-h3);
+  letter-spacing: -.02em;   /* was +8.5%; tightened to the site's -2% */
+  text-transform: uppercase;
+  position: relative;
+}
+.stack__cta::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -.25em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-fast) var(--ease);
+}
+.stack__cta:hover::after,
+.stack__panel:focus-visible .stack__cta::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack__panel img { transition: none; }
+}
+
+/* =========================================================
+   DPS ARCHIVE — the band on the home page
+   ========================================================= */
+.archive-band {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: clamp(340px, 42vw, 634px);
+  padding: var(--section-y) var(--gutter) clamp(40px, 4.8vw, 72px);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--on-dark);
+}
+.archive-band__bg { position: absolute; inset: 0; z-index: -2; display: block; }
+.archive-band__bg img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.archive-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* the photograph is bright, so the foot needs a firmer scrim to hold
+     white type at the bottom-left and bottom-right */
+  background: linear-gradient(to top, rgba(6, 12, 14, .72) 0%, rgba(6, 12, 14, .42) 32%, rgba(6, 12, 14, .10) 70%, rgba(6, 12, 14, 0) 100%);
+}
+.archive-band:hover .archive-band__bg img { transform: scale(1.03); }
+
+.archive-band__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.2em;
+}
+.archive-band__title { font-size: clamp(1.5rem, 2.9vw, 2.7rem); }
+.archive-band__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .7em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-h3);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  position: relative;
+}
+.archive-band__cta svg { width: 22px; height: 10px; transition: transform var(--dur-fast) var(--ease); }
+.archive-band__cta::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -.3em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-fast) var(--ease);
+}
+.archive-band:hover .archive-band__cta::after,
+.archive-band:focus-visible .archive-band__cta::after { transform: scaleX(1); transform-origin: left; }
+.archive-band:hover .archive-band__cta svg { transform: translateX(6px); }
+
+/* the DPS ARCHIVE page titles */
+.page-title--split { font-size: clamp(1.6rem, 3vw, 2.6rem); color: var(--ink); }
+
+/* =========================================================
+   DPS ARCHIVE — a single item
+   ========================================================= */
+.item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 3.4vw, 56px);
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .item {
+    grid-template-columns: 749fr 595fr;
+    column-gap: clamp(28px, 4.8vw, 72px);
+  }
+}
+
+/* ---- the photograph, with zoom ---- */
+.item-photo {
+  position: relative;
+  aspect-ratio: 749 / 759;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: var(--panel);
+}
+.item-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* the origin follows the pointer and is deliberately not transitioned,
+     so panning tracks the cursor while the scale eases in once */
+  transform-origin: var(--zx, 50%) var(--zy, 50%);
+  transition: transform var(--dur) var(--ease);
+}
+.item-photo.is-zoomed { cursor: zoom-out; }
+.item-photo.is-zoomed img { transform: scale(2.4); }
+
+.item-photo__hint {
+  margin-top: .9em;
+  font-size: var(--fs-small);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--ink-60);
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.item-photo__hint.is-hidden { opacity: 0; }
+
+/* ---- the details ---- */
+.item__title {
+  font-size: clamp(1.6rem, 3.1vw, 2.9rem);
+  color: var(--ink);
+  padding-bottom: clamp(18px, 2.2vw, 34px);
+  border-bottom: 1px solid var(--hairline);
+}
+.item__note {
+  margin-top: clamp(20px, 2.4vw, 36px);
+  max-width: 46ch;
+}
+
+.item__specs {
+  width: 100%;
+  margin-top: clamp(26px, 3.2vw, 48px);
+  border-collapse: collapse;
+  font-size: var(--fs-body);
+}
+.item__specs th,
+.item__specs td {
+  border: 1px solid var(--hairline);
+  padding: clamp(14px, 1.6vw, 24px) 1em;
+  text-align: center;
+  font-weight: 400;
+}
+.item__specs th { width: 50%; }
+
+.buy {
+  display: block;
+  margin-top: clamp(30px, 3.6vw, 56px);
+  padding: 1.05em 2em;
+  background: var(--oxblood);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-h3);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.buy:hover,
+.buy:focus-visible { background: var(--ink); color: var(--off-white); }
+
+@media (prefers-reduced-motion: reduce) {
+  .item-photo img,
+  .archive-band__bg img { transition: none; }
+}
+
+/* =========================================================
+   TYPE RULES — applied site-wide, placed last so they win
+   1. Any title in Sainte Colombe: Light Italic, -2% to -4%
+   2. Any title in Helvetica Neue: Light, -2%
+   Body copy, buttons and nav links are not titles and keep
+   their own settings.
+   ========================================================= */
+
+/* ---- 1. Sainte Colombe titles: Light Italic ---- */
+.split-head__b,
+.page-title--display,
+.about-hero__b,
+.story__label em,
+.story__head-b,
+.values__title-b,
+.value__num,
+.value__name,
+.experience h2,
+.founders__title,
+.pd-hero__b,
+.stack__title-b {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+}
+/* tracking inside the -2% to -4% band. These were looser (0 to +1%)
+   and come in to -2% */
+.split-head__b,
+.about-hero__b,
+.story__label em,
+.stack__title-b { letter-spacing: -.02em; }
+/* these were tighter than -4% (-7% to -12.5%) and come out to -4% */
+.story__head-b,
+.values__title-b,
+.experience h2,
+.founders__title { letter-spacing: -.04em; }
+/* .value__num and .value__name sit at -3%, .page-title--display,
+   .pd-hero__b and the hero italic at -2% to -3.3% — already in range */
+.value__num { letter-spacing: -.03em; }
+
+/* ---- 2. Helvetica titles: Light, -2% ---- */
+.page-title,
+.split-head__a,
+.hero__title .split-head__a,
+.pd-intro .split-head__a,
+.about-hero__a,
+.story__label,
+.story__head-a,
+.ethos__text h2,
+.values__title-a,
+.acc__year,
+.acc__summary,
+.founders__list h3,
+.stack__title-a,
+.inspiration__label,
+.card__title,
+.tile__name,
+.pd-hero__title,
+.eyebrow,
+.pd-intro .eyebrow,
+.form-panel h2,
+.site-footer h2 {
+  font-weight: 300;
+  letter-spacing: -.02em;
+}
+/* the display page titles carry the page-title class too; keep them serif */
+.page-title--display { letter-spacing: -.02em; }
+
+/* "Tell us about your project" in capitals */
+.form-panel h2 { text-transform: uppercase; }
+/* the wrappers around two-part headings, so nothing inside inherits a
+   different tracking */
+.split-head,
+.about-hero__title,
+.values__title,
+.story__head { font-weight: 300; letter-spacing: -.02em; }
+
+
+/* =========================================================
+   HOME HERO TITLE — values read from the Figma file (Home, 610:4727)
+   EVERY SPACE ASKS    Helvetica Neue Light 60, -3%
+   A DIFFERENT         Helvetica Neue Light 60, -4%
+   QUESTION            Sainte Colombe Italic 60, -6%, same size,
+                       a normal word space before it
+   Lines sit ~62px apart (baseline to baseline) at 60px.
+   Placed last so nothing above can pull the halves apart.
+   ========================================================= */
+.hero__title {
+  /* one step lighter than the file, keeping the same pairing:
+     Helvetica Neue UltraLight + Sainte Colombe Light Italic.
+     Heavier again: 300 + 400. Lighter still: 100 (Thin) + 200. */
+  --hero-sans-weight: 200;
+  --hero-serif-weight: 300;
+  font-size: clamp(2rem, 4.2vw, 3.75rem);   /* 60px */
+  line-height: 1.04;
+  text-transform: uppercase;
+}
+.hero__title .split-head__a {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: var(--hero-sans-weight);
+  letter-spacing: -.04em;
+}
+.hero__title .hero__line1 { letter-spacing: -.03em; }
+.hero__title .split-head__b {
+  display: inline;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--hero-serif-weight);
+  font-size: 1em;            /* same number as Helvetica, as drawn */
+  letter-spacing: -.06em;
+  margin-left: 0;
+}
+
+
+/* =========================================================
+   ABOUT HERO — values read from the Figma file (About, 610:4851)
+   ABOUT    Helvetica Neue Thin 100 (tracking: see the title rule below)
+   US       Sainte Colombe Light Italic 100, 0%
+   Lede     Helvetica Neue Light 36 on 32, -4%
+   ========================================================= */
+/* ABOUT US uses the same type settings as the Our Story title (italic
+   5.7% larger, -2% tracking on both words), one weight step thinner on
+   both, as the brand guideline pairs them: Helvetica Neue Thin with
+   Sainte Colombe Extra Light Italic. Size and position are unchanged. */
+.about-hero__title { letter-spacing: -.02em; }
+.about-hero__title .about-hero__a { font-weight: 100; letter-spacing: -.02em; }
+.about-hero__title .about-hero__b {
+  font-weight: 200;
+  font-style: italic;
+  font-size: 1.057em;
+  letter-spacing: -.02em;
+}
+.about-hero__foot .about-hero__lede {
+  max-width: none;
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2.38vw, 2.25rem);    /* 36px */
+  line-height: .889;                            /* 32px */
+  letter-spacing: -.04em;
+}
+
+
+/* =========================================================
+   OCT 19 ROUND — placed last so these win over earlier rules
+   ========================================================= */
+/* 1. titles at the top of Journal, Careers, Projects and DPS Archive:
+      Helvetica Neue Light, -3% */
+.page-title--top {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -.03em;
+  color: var(--ink);
+}
+
+/* 2. journal post title: capitals, Helvetica Neue Light 45px over
+      Sainte Colombe Light Italic 40px, -3% on both */
+.post-head__title { text-transform: uppercase; }
+.post-head__title .split-head__a {
+  font-weight: 300;
+  letter-spacing: -.03em;
+}
+.post-head__title .split-head__b {
+  font-weight: 300;
+  font-style: italic;
+  font-size: .889em;                         /* 40px on 45px */
+  letter-spacing: -.03em;
+}
+
+/* 3. journal cards (Journal page and home page): Helvetica Neue Light
+      20px on 22px; READ MORE in Sainte Colombe Light Italic */
+.card__title {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.32vw, 1.25rem);  /* 20px */
+  line-height: 1.1;                          /* 22px */
+}
+.arrow-link {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* =========================================================
+   ABOUT REDESIGN — Oct 21, values read from the Figma file
+   (About, 665:3733) at 1512 wide. Placed last so it wins.
+   ========================================================= */
+
+/* ---- header ---- */
+.about-hero__bg img { object-position: 50% 90%; }   /* the crop drawn in the file */
+.about-hero { padding-bottom: clamp(20px, 2.05vw, 31px); }
+/* ABOUT: Helvetica Neue Thin 110px, -3%; US: Sainte Colombe Light Italic
+   110px, -10%; the title box starts 199px down */
+.about-hero .about-hero__title {
+  margin-top: clamp(40px, 9.33vw, 141px);
+  font-size: clamp(2.8rem, 7.28vw, 6.875rem);    /* 110px */
+  line-height: .94;
+  letter-spacing: -.05em;                        /* the space between, as drawn */
+}
+.about-hero__title .about-hero__a { font-weight: 100; letter-spacing: -.03em; }
+.about-hero__title .about-hero__b {
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1em;
+  letter-spacing: -.1em;
+}
+/* paragraph: Helvetica Neue Light 34px on 34px, -2%, 922px wide;
+   its last line and the button share one bottom edge */
+.about-hero__foot { align-items: flex-end; }
+.about-hero__foot .about-hero__lede {
+  max-width: 922px;
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2.25vw, 2.125rem);    /* 34px */
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+/* ---- shared small label above a section title (OUR STORY, CORE VALUES) ---- */
+.section-label {
+  color: var(--oxblood);
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.65vw, 1.5625rem);     /* 25px */
+  line-height: 1.04;
+  letter-spacing: -.03em;
+}
+
+/* ---- our story ---- */
+.ostory { padding: clamp(48px, 4.76vw, 72px) 0; overflow: hidden; }
+.ostory__head { display: grid; grid-template-columns: 1fr; }
+.ostory__title {
+  margin-top: clamp(12px, 1.65vw, 25px);
+  color: var(--oxblood);
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 5.03vw, 4.75rem);     /* 76px */
+  line-height: .868;                             /* 66px */
+  letter-spacing: -.03em;
+}
+.ostory__line { display: block; }
+.ostory__a { font-family: var(--font-body); font-weight: 300; letter-spacing: -.03em; }
+.ostory__b { font-family: var(--font-display); font-style: italic; font-weight: 300; letter-spacing: -.03em; }
+/* paragraphs: Helvetica Neue Light 30px, 679px wide, starting 764px in */
+.ostory__text {
+  margin-top: 20px;
+  max-width: 679px;
+}
+.ostory__text p {
+  color: #000;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.98vw, 1.875rem);   /* 30px */
+  line-height: .9;                               /* 27px, as drawn */
+  letter-spacing: 0;
+}
+.ostory__text p + p { margin-top: clamp(24px, 3.7vw, 56px); }
+@media (min-width: 900px) {
+  .ostory__head { grid-template-columns: 50.55% 1fr; }
+  .ostory__head .section-label,
+  .ostory__title { grid-column: 1 / -1; }
+  .ostory__text { grid-column: 2; margin-top: 0; }
+}
+
+/* the photo rail: bleeds off the right edge, drifts with the page and
+   can be dragged. Tall 461x527 at the top, then 470x464 dropped 116px,
+   then 470x464 at the top, repeating, 33px apart */
+.ostory__rail {
+  margin-top: clamp(40px, 4.96vw, 75px);
+  padding-inline: var(--gutter);
+  cursor: grab;
+  touch-action: pan-y;               /* vertical page scroll still works on touch */
+  user-select: none;
+  -webkit-user-select: none;
+  outline-offset: 4px;
+}
+.ostory__rail.is-dragging { cursor: grabbing; }
+.ostory__track {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(14px, 2.18vw, 33px);
+  width: max-content;
+  will-change: transform;
+}
+.ostory__slide { flex: none; overflow: hidden; }
+.ostory__slide img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.ostory__slide--t { width: clamp(210px, 30.49vw, 461px); aspect-ratio: 461 / 527; }
+.ostory__slide--s,
+.ostory__slide--u { width: clamp(214px, 31.08vw, 470px); aspect-ratio: 470 / 464; }
+.ostory__slide--s { margin-top: clamp(52px, 7.67vw, 116px); }
+
+/* ---- ethos: new colours only ---- */
+.ethos__text { background: #443E39; }
+.ethos__text h2,
+.ethos__paras > p { color: #EFE4D8; }
+
+
+/* =========================================================
+   ABOUT AMENDS — Oct 21 (round 2): everything a step smaller,
+   ABOUT in Light, the title higher on the sky, and the two big
+   section titles at one shared size
+   ========================================================= */
+/* 1 + 2 + 3. header: title higher (on the sky), ABOUT in Light, smaller */
+.about-hero .about-hero__title {
+  margin-top: clamp(16px, 3.3vw, 50px);
+  font-size: clamp(2.5rem, 6.35vw, 6rem);         /* 96px, was 110 */
+}
+.about-hero__title .about-hero__a { font-weight: 300; }
+.about-hero__foot .about-hero__lede {
+  max-width: 800px;
+  font-size: clamp(1rem, 1.85vw, 1.75rem);        /* 28px, was 34 */
+}
+
+/* smaller section labels and ethos copy */
+.section-label { font-size: clamp(.9rem, 1.32vw, 1.25rem); }    /* 20px, was 25 */
+.ethos__text h2 { font-size: clamp(1.4rem, 2.51vw, 2.375rem); }  /* 38px, was 42 */
+.ethos__paras > p { font-size: clamp(.95rem, 1.46vw, 1.375rem); } /* 22px, was 25 */
+
+/* 4 + 5. the two big titles share one size: 60px (was 76 and 55/58),
+   -3% on both faces, 52px leading (the same .868 ratio as before) */
+.ostory__title {
+  font-size: clamp(1.9rem, 3.97vw, 3.75rem);      /* 60px */
+  line-height: .868;
+  letter-spacing: -.03em;
+}
+
+/* 4. story paragraphs: 24px, was 30 */
+.ostory__text { max-width: 600px; }
+.ostory__text p { font-size: clamp(.95rem, 1.59vw, 1.5rem); }   /* 22px, was 30 */
+
+
+/* =========================================================
+   ABOUT AMENDS — Oct 21 (round 3)
+   ========================================================= */
+/* 1. ABOUT a step lighter: Helvetica Neue UltraLight */
+.about-hero__title .about-hero__a { font-weight: 200; }
+/* short screens: tighten so the whole card fits */
+
+
+
+
+/* =========================================================
+   CORE VALUES — Oct 22: four coloured cards around the title
+   (Figma component "Group 251": Default = the pile, Variant2 =
+   spread out). On wide screens the section pins and the scroll
+   glides the cards from the pile to the corners (js/spread.js).
+   The board is the Figma layout at 1512 wide, scaled to fit.
+   ========================================================= */
+.cvalues2 { position: relative; margin-top: clamp(24px, 3.17vw, 48px); }
+.cvalues2__board { position: relative; }
+.cvalues2__head { text-align: center; color: var(--oxblood); }
+.cvalues2__title {
+  margin-top: 46px;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 60px;
+  line-height: 52px;
+  letter-spacing: -.05em;
+}
+.cvalues2__title span { display: block; }
+.cvalues2__title em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 63px;
+  letter-spacing: -.1em;
+}
+.cvalues2__head .section-label { font-size: 25px; letter-spacing: -.03em; }
+
+.cvalues2__cards { list-style: none; }
+.vcard2 {
+  width: 372px;
+  height: var(--h);
+  padding: 37px 20px 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.vcard2__num {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 30px;
+  line-height: 39px;
+  letter-spacing: -.03em;
+}
+.vcard2__name {
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 38px;
+  line-height: 37px;
+  letter-spacing: -.03em;
+}
+.vcard2__text {
+  margin-top: 22px;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 26px;
+  letter-spacing: -.02em;
+}
+/* colours from the file, stacked in the file's order (03 on top) */
+.vcard2--1 { background: #BECEE0; color: #60140A; z-index: 1; }
+.vcard2--1 .vcard2__text { color: #08313C; }
+.vcard2--2 { background: #08313C; color: #BECEE0; z-index: 2; }
+.vcard2--4 { background: #443E39; color: #EFE4D8; z-index: 3; }
+.vcard2--3 { background: #60140A; color: #EFE4D8; z-index: 4; }
+
+/* wide screens: the Figma board, scaled by the script, pinned while the
+   cards spread. Without the script the cards simply sit spread out */
+@media (min-width: 900px) {
+  .cvalues2__board {
+    width: 1512px;
+    height: 800px;
+    transform-origin: 0 0;
+  }
+  .cvalues2__head {
+    position: absolute;
+    left: 418px;
+    top: 214px;
+    width: 676px;
+  }
+  .vcard2 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+  .vcard2--1 { transform: translate(75px, 6px); }
+  .vcard2--2 { transform: translate(1059px, 6px); }
+  .vcard2--3 { transform: translate(1094px, 421px); }
+  .vcard2--4 { transform: translate(18px, 423px); }
+  .cvalues2.is-live .cvalues2__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .cvalues2:not(.is-live) .cvalues2__stage { overflow: hidden; padding-block: 48px; }
+}
+
+/* narrow screens: the title, then the four cards one under another */
+@media (max-width: 899px) {
+  .cvalues2 { padding: 48px var(--gutter); }
+  .cvalues2__title { font-size: 34px; line-height: 31px; margin-top: 16px; }
+  .cvalues2__title em { font-size: 36px; }
+  .cvalues2__head .section-label { font-size: 18px; }
+  .cvalues2__cards { display: grid; gap: 14px; margin-top: 32px; }
+  .vcard2 { width: auto; height: auto; padding: 24px 20px 26px; }
+  .vcard2__name { font-size: 28px; line-height: 28px; }
+  .vcard2__num { font-size: 24px; line-height: 30px; }
+  .vcard2__text { font-size: 18px; line-height: 21px; margin-top: 16px; }
+}
+/* the real texts run a little longer than the file's placeholder copy:
+   the drawn heights are the minimum, and a card grows to fit its text */
+.vcard2 { height: auto; min-height: var(--h); }
+@media (max-width: 899px) { .vcard2 { min-height: 0; } }
+
+
+/* ---- core values, round 2 ---- */
+/* 01 sits on top of the pile, then 02, 03, 04 behind it */
+.vcard2--1 { z-index: 4; }
+.vcard2--2 { z-index: 3; }
+.vcard2--3 { z-index: 2; }
+.vcard2--4 { z-index: 1; }
+.vcard2 { background: none; padding: 0; overflow: visible; border-radius: 0; }
+.vcard2__body {
+  min-height: var(--h);
+  padding: 37px 20px 20px;
+  border-radius: 10px;
+  transition: transform 600ms cubic-bezier(.22, 1, .36, 1), box-shadow 600ms cubic-bezier(.22, 1, .36, 1);
+}
+.vcard2--1 .vcard2__body { background: #BECEE0; }
+.vcard2--2 .vcard2__body { background: #08313C; }
+.vcard2--3 .vcard2__body { background: #60140A; }
+.vcard2--4 .vcard2__body { background: #443E39; }
+/* hover: the card lifts a little and leans a touch, then settles back */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .vcard2:hover .vcard2__body {
+    transform: translateY(-12px) rotate(-1.2deg);
+    box-shadow: 0 18px 36px -18px rgba(20, 12, 8, .35);
+  }
+  .vcard2--2:hover .vcard2__body,
+  .vcard2--3:hover .vcard2__body { transform: translateY(-12px) rotate(1.2deg); }
+}
+@media (max-width: 899px) { .vcard2__body { min-height: 0; padding: 24px 20px 26px; } }
+
+
+
+/* =========================================================
+   INSPIRATION — client preview, after the Viabizzuno reference
+   The words hold the middle of the screen; seven photographs in
+   seven sizes rise up past them, each at its own speed, so some
+   overtake others (js/inspdrift.js). Where a photo passes behind
+   the words, a difference blend keeps them readable: ink on the
+   page, light over a dark photo.
+   ========================================================= */
+.insp6 { position: relative; height: 165vh; height: 165svh; }   /* four photos: a short scroll, little space at the end */
+/* no z-index here: a z-index would seal the words into their own layer and
+   the difference blend could no longer see the page and photos behind them.
+   The words come after the photos in the page, so they still sit on top. */
+.insp6__pin { position: absolute; inset: 0; pointer-events: none; }
+.insp6__text {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 1.6vw, 24px);
+  padding-inline: var(--gutter);
+  text-align: center;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+.insp6__label {
+  display: flex;
+  align-items: center;
+  gap: .9em;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: clamp(.8125rem, 1.06vw, 1rem);     /* 16px */
+  letter-spacing: -.03em;
+  opacity: .62;
+}
+.insp6__label .sparkle { width: .75em; height: .75em; }
+.insp6__line {
+  max-width: 21em;
+  font-weight: 300;
+  font-size: clamp(1.25rem, 1.98vw, 1.875rem); /* 30px */
+  line-height: 1.07;
+  letter-spacing: -.03em;
+}
+.insp6__link {
+  pointer-events: auto;
+  margin-top: .4em;
+  padding-bottom: .2em;
+  border-bottom: 1px solid currentColor;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: clamp(.8125rem, 1.06vw, 1rem);
+  letter-spacing: -.02em;
+}
+
+/* the photographs: four, all medium, each a different shape, set loosely
+   (not mirrored) on either side. Each rises at a slightly different pace
+   for a little life. The last one sits low, so the section ends soon
+   after it with little empty space. */
+.insp6__photo { position: absolute; overflow: hidden; will-change: transform; }
+.insp6__photo img { width: 100%; height: 100%; object-fit: cover; }
+.insp6__photo--1 { left: 5%;   top: 4%;  width: min(24vw, 37svh); aspect-ratio: 3 / 4; }   /* tall   */
+.insp6__photo--2 { right: 6%;  top: 22%; width: min(27.5vw, 42.4svh); aspect-ratio: 4 / 3; }   /* wide   */
+.insp6__photo--3 { left: 9%;   top: 50%; width: min(22vw, 33.9svh); aspect-ratio: 1; }       /* square */
+.insp6__photo--4 { right: 10%; top: 73%; width: min(23vw, 35.4svh); aspect-ratio: 4 / 5; }   /* upright */
+
+/* phones and reduced motion: the words, then the photos in two columns */
+@media (max-width: 899px) {
+  .insp6 { height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 56px var(--gutter); }
+  .insp6__pin { position: static; grid-column: 1 / -1; order: -1; pointer-events: auto; }
+  .insp6__text { position: static; height: auto; color: var(--ink); mix-blend-mode: normal; padding: 0 0 28px; }
+  .insp6__photo { position: static; width: auto !important; }
+  .insp6__photo--2 { grid-column: 1 / -1; }
+}
+
+
+/* =========================================================
+   DPS ARCHIVE — Oct 26
+   ========================================================= */
+/* ---- home section (Figma, Home "Group 220", 1512 x 633): a cream half
+   holding the title, a line, the link and a small photo; the photograph
+   fills the other half ---- */
+.archive2 {
+  display: grid;
+  grid-template-columns: 765fr 747fr;
+  min-height: clamp(420px, 41.87vw, 633px);
+}
+.archive2__panel {
+  position: relative;
+  background: #EFE4D8;
+  color: #443E39;
+  padding: clamp(18px, 1.92vw, 29px) clamp(20px, 2.45vw, 37px);
+}
+/* DPS in Helvetica Neue Light 61px, -8%; ARCHIVE in Sainte Colombe
+   Light Italic 64px, -12%, as drawn */
+.archive2__title {
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 4.03vw, 3.8125rem);    /* 61px */
+  line-height: .97;
+  letter-spacing: -.08em;
+}
+.archive2__title em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.049em;                             /* 64px */
+  letter-spacing: -.12em;
+}
+.archive2__text {
+  margin-top: clamp(18px, 2.12vw, 32px);
+  max-width: 541px;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 1.72vw, 1.625rem);    /* 26px */
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+.archive2__link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
+  margin-top: clamp(28px, 3.9vw, 59px);
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: clamp(.95rem, 1.46vw, 1.375rem);     /* 22px */
+  letter-spacing: -.04em;
+}
+.archive2__link svg { width: 1.05em; height: auto; transition: transform var(--dur) var(--ease); }
+.archive2__link:hover svg,
+.archive2__link:focus-visible svg { transform: translateX(5px); }
+.archive2__thumb {
+  position: absolute;
+  left: 55.8%;                                    /* 427 of 765 */
+  top: 53.1%;                                     /* 336 of 633 */
+  width: 38.7%;                                   /* 296 */
+  aspect-ratio: 296 / 267;
+  overflow: hidden;
+}
+.archive2__thumb img,
+.archive2__photo img { width: 100%; height: 100%; object-fit: cover; }
+.archive2__photo { display: block; overflow: hidden; }
+.archive2__photo img { transition: transform 1.2s cubic-bezier(.22, 1, .36, 1); }
+.archive2:hover .archive2__photo img { transform: scale(1.03); }
+@media (max-width: 899px) {
+  .archive2 { grid-template-columns: 1fr; }
+  .archive2__panel { padding-bottom: 32px; }
+  .archive2__thumb { display: none; }
+  .archive2__photo { aspect-ratio: 4 / 3; }
+}
+
+/* ---- the DPS Archive pages: a step into the studio's own line. Warm dark
+   ground (#443E39) with cream type, and a cream footer (Figma) ---- */
+body.theme-archive { background: #08313C; color: #EFE4D8; }
+.theme-archive .site-header { box-shadow: inset 0 -1px 0 rgba(239, 228, 216, .55); }
+.theme-archive .site-header.is-on-dark { background: #08313C; }
+/* DPS in Helvetica Neue Light, ARCHIVE in Sainte Colombe Italic, 45px */
+.archive-title {
+  color: #EFE4D8;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: clamp(1.8rem, 2.98vw, 2.8125rem);    /* 45px */
+  letter-spacing: 0;
+}
+.archive-title em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -.01em;
+}
+.archive-intro {
+  margin-top: clamp(16px, 2.25vw, 34px);
+  max-width: 1317px;
+  color: #EFE4D8;
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2.25vw, 2.125rem);     /* 34px */
+  line-height: 1.08;
+  letter-spacing: -.02em;
+}
+.theme-archive .page-head { padding-bottom: clamp(28px, 4.2vw, 64px); }
+
+/* item page in cream on the dark ground */
+.theme-archive .item__title { color: #EFE4D8; border-bottom-color: rgba(239, 228, 216, .55); }
+.theme-archive .item__note {
+  color: #EFE4D8;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.32vw, 1.25rem);        /* 20px */
+}
+.theme-archive .item__specs th,
+.theme-archive .item__specs td { border-color: rgba(213, 213, 213, .8); color: #EFE4D8; }
+.theme-archive .item__specs th { font-weight: 300; }
+.theme-archive .item-photo__hint { color: rgba(239, 228, 216, .7); }
+.theme-archive .buy {
+  background: #EFE4D8;
+  color: #08313C;
+  font-size: clamp(1.25rem, 1.85vw, 1.75rem);     /* 28px */
+  letter-spacing: 0;
+}
+.theme-archive .buy:hover,
+.theme-archive .buy:focus-visible { background: #fff; color: #443E39; }
+
+/* the cream footer with dark type on these pages */
+.theme-archive .site-footer { background: #EFE4D8; color: #443E39; }
+.theme-archive .site-footer h2,
+.theme-archive .site-footer__legal { color: rgba(68, 62, 57, .7); }
+.theme-archive .site-footer a { color: #443E39; }
+/* the photo fills its half without setting the section's height */
+.archive2 { height: clamp(420px, 41.87vw, 633px); min-height: 0; }
+.archive2__photo { position: relative; }
+.archive2__photo img { position: absolute; inset: 0; }
+@media (max-width: 899px) { .archive2 { height: auto; } }
+
+
+/* =========================================================
+   OCT 27 ROUND
+   ========================================================= */
+/* 1. inspiration: the photos are drawn only inside their own section, so
+   the first one no longer slides up over the header photo. clip (not
+   hidden) keeps the sticky words working */
+.insp6 { overflow: clip; }
+
+/* 2. home DPS Archive photos: the obelisk painting fills the half, the
+   horse painting is the small one */
+.archive2__photo img { object-position: 50% 42%; }
+
+/* 8. phones: headers half as tall (540 on the 440-wide design frame),
+   and the inspiration photos one under another, all one size */
+@media (max-width: 699px) {
+  .hero,
+  .about-hero,
+  .pd-hero { min-height: 0; height: 122.7vw; }
+  .about-hero__title { margin-top: 0; }
+  .insp6 { grid-template-columns: 1fr; }
+  .insp6__photo,
+  .insp6__photo--1, .insp6__photo--2, .insp6__photo--3, .insp6__photo--4 {
+    grid-column: 1;
+    aspect-ratio: 263 / 195 !important;
+  }
+}
+
+/* 5. core values, cleaner: the Nile deck photo behind the whole stage, the
+   title across the top in cream, and wider cards (526 x 302, wider than
+   tall). The same pile-to-corners movement. */
+.cvalues2__stage { position: relative; isolation: isolate; }
+.cvalues2__bg { position: absolute; inset: 0; z-index: -1; }
+.cvalues2__bg img { width: 100%; height: 100%; object-fit: cover; }
+.cvalues2__bg::after { content: ''; position: absolute; inset: 0; background: rgba(18, 14, 11, .42); }
+.cvalues2__head { color: #EFE4D8; }
+.cvalues2__head .section-label { color: #EFE4D8; }
+.vcard2 { width: 526px; }
+.vcard2__body { min-height: var(--h); padding: 40px 30px 30px; }
+.vcard2__text { margin-top: 18px; font-size: 22px; line-height: 25px; }
+@media (min-width: 900px) {
+  .cvalues2__board { height: 981px; }
+  .cvalues2__head { left: 0; width: 1512px; top: 30px; }
+  .cvalues2__title { margin-top: 20px; }
+  .vcard2--1 { transform: translate(36px, 256px); }
+  .vcard2--2 { transform: translate(962px, 256px); }
+  .vcard2--3 { transform: translate(926px, 583px); }
+  .vcard2--4 { transform: translate(72px, 583px); }
+}
+@media (max-width: 899px) {
+  .cvalues2 { position: relative; isolation: isolate; }
+  .cvalues2__stage { position: static; }
+  .vcard2 { width: auto; }
+  .vcard2__body { min-height: 0; padding: 24px 20px 26px; }
+  .vcard2__text { font-size: 18px; line-height: 21px; }
+}
+
+/* no white gap between Ethos and Core values: the photo starts right under it */
+.cvalues2 { margin-top: 0; }
+
+/* BUY NOW, smaller and cleaner: fitted to its words, a slim height, 18px
+   Sainte Colombe italic. On hover it turns to a cream outline */
+.theme-archive .buy {
+  display: inline-block;
+  min-width: 220px;
+  padding: 13px 40px 12px;
+  border: 1px solid #EFE4D8;
+  background: #EFE4D8;
+  color: #08313C;
+  font-size: clamp(1rem, 1.19vw, 1.125rem);       /* 18px */
+  line-height: 1.2;
+  letter-spacing: .04em;
+  text-align: center;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.theme-archive .buy:hover,
+.theme-archive .buy:focus-visible { background: transparent; color: #EFE4D8; }
+@media (max-width: 699px) { .theme-archive .buy { display: block; } }
+/* BUY NOW: the same slim height, Helvetica Neue Light, and exactly as wide
+   as the size table above it */
+.theme-archive .buy {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.32vw, 1.25rem);        /* 20px */
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+}
